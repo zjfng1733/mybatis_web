@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjf.mybatis.dao.PersonDao">
+
+    <resultMap id="PersonBaseMap" type="com.zjf.mybatis.model.Person">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column=" mobilephone" property=" mobilephone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+<!--查询操作-->
+    <select id="selectPersonByID" parameterType="java.lang.Long" resultMap="PersonBaseMap">
+        SELECT gender as gender1  FROM Person
+        WHERE id = #{id}
+    </select>
+    <select id="selectPersonByName" parameterType="string"   resultType="Person1">
+        select * from Person where  userName = #{userName}
+    </select>
+
+    <select id="selectAll" resultType="Person1">
+
+        select * from Person
+    </select>
+
+
+    <!--执行增加操作的SQL语句。id和parameterType分别与PersonDao接口中的addPerson方法的名字和参数类型一致。
+           useGeneratedKeys设置为"true"表明要MyBatis获取由数据库自动生成的主键；keyProperty="id"指定把获取到的主键值注入到User的id属性-->
+
+    <!--插入操作-->
+    <insert id="addPerson" parameterType="Person1" useGeneratedKeys="true" keyProperty="id">
+        insert into Person(userName,gender,mobilephone)
+        values(#{userName},#{gender1},#{mobilephone})
+    </insert>
+
+    <!--更新操作-->
+    <update id="updatePerson" parameterType="Person1" >
+        update Person set userName=#{userName},gender=#{gender1},mobilephone=#{mobilephone}
+        where id=#{id}
+    </update>
+
+    <!--删除操作-->
+    <delete id="deletePerson" parameterType="int">
+        delete from Person where id=#{id}
+    </delete>
+
+</mapper>
